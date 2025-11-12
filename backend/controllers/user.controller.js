@@ -129,3 +129,81 @@ export const logout = async(req,res)=>{
 
     }
 }
+
+export const sendresetotp = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+
+        if (!user) {
+            return res.status(200).json({ 
+                message: "Reset OTP email pe bhej diya hai (agar email registered hai)", 
+                success: true 
+            });
+        }
+
+ 
+        const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+        const mailoptions = {
+            from: process.env.SENDER_EMAIL,
+            to: email,
+            subject: "Password Reset OTP - Suhani Style Studio",
+            text: `Heyy ${user.username}! Aapka password reset OTP hai: ${otp}`
+        };
+
+        await transporter.sendMail(mailoptions);
+        console.log("Reset OTP mail sent to " + email);
+
+        user.reset_otp = otp;
+        await user.save();
+
+        return res.status(200).json({ message: "Reset OTP email pe bhej diya hai", success: true });
+
+    } catch (error) {
+        console.log("Error in sending reset OTP:", error.message);
+        return res.status(500).json({ message: "Server mein error", success: false });
+    }
+}
+
+
+export const resetpass = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({message:"all feilds required",success:false})
+    }
+    try {
+        const {otp,email,newpass} = req.body
+        if(!otp || !email){
+            return res.json({message:"all feilds required"});
+        }
+
+        const user = await User.findOne({email})
+        if(!user){
+            return res.json({message:"no user found"});
+        }
+        
+       if(otp!==user.reset_otp){
+        return res.json({message:"invalid or expired otp bro "})
+       }
+
+       const hashpass = await bcrypt.hash(newpass,10);
+       user.password= hashpass;
+       user.reset_otp=null;
+       await user.save();
+
+       return res.json({message:"password changed"});
+
+
+
+    } catch (error) {
+        return res.status(400).json({message:"err verifying otp",success:false})
+    }
+}
+

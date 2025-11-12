@@ -8,14 +8,14 @@ dotenv.config()
 //vo use find kiya User model me se agr mila to yani user authiorised hai 
 
 export const protect = async(req,res,next)=>{
-    let token ;
+  
     try {
-        token = req.cookies.token ;
+        const token = req.cookies.token ;
         if (!token ){
             return res.this.status(400).json({message:"no token found",success:false});
 
         }
-        const decodedToken = await jwt.verify(token,process.env.JWT_SECRET)
+        const decodedToken = jwt.verify(token,process.env.JWT_SECRET)
         const user = await User.findById(decodedToken.userId).select('-password');
         if(!user){
             return res.status(400).json({message:"no authorised user found",success:false});
