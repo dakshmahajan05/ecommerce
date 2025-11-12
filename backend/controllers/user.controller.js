@@ -2,13 +2,23 @@ import bcrypt from 'bcrypt'
 import User from '../models/user.model.js';
 import transporter from '../config/nodemailer.js';
 import jwt from 'jsonwebtoken'
+import {validationResult} from 'express-validator'
+
 import dotenv from 'dotenv'
+import { validationResult } from 'express-validator';
 dotenv.config()
 
 
 export const register = async(req,res)=>{
     try {
-        const {email,username,password} = req.body;
+
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors:errors.array()});
+        }
+        const { email, username, password } = req.body;
+
         const user =await User.findOne({email});
         if(user){
             return res.status(400).json({message:"user already exist",success:false})
@@ -41,7 +51,13 @@ export const register = async(req,res)=>{
 }
 
 export const verifyOtp = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+
+    }
     try {
+
         const {email,otp} = req.body
         const user = await User.findOne({email});
         if(!user){
@@ -64,6 +80,10 @@ export const verifyOtp = async(req,res)=>{
     }
 }
 export const login = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()})
+    }
     try {
         const {email,password} = req.body;
         const user =await User.findOne({email})
@@ -93,5 +113,19 @@ export const login = async(req,res)=>{
         console.log("err while login");
         return res.status(400).json({message:"err while login",success:false})
         
+    }
+}
+
+
+export const logout = async(req,res)=>{
+    try {
+        res.cookie("token",'',{
+            httpOnly:true,
+            expires:new Date(0)
+        });
+        return res.status(200).json({message:"logout successfull",success:true});
+    } catch (error) {
+        return res.status(400).json({message:"err while logout"})
+
     }
 }

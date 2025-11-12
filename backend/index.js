@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import connectDB from './db/conn.js'
 dotenv.config()
 import cookieParser from 'cookie-parser'
+import userRoute from './routes/user.routes.js'
 
 
 
@@ -21,6 +22,9 @@ app.get('/',(req,res)=>{
 })
 //mongoDB conn
 connectDB();
+
+app.use('/api/user',userRoute)
+
 app.listen(port, ()=>{
     console.log(`server running on PORT ${port}`);
     
