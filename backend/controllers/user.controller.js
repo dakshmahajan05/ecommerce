@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 import {validationResult} from 'express-validator'
 
 import dotenv from 'dotenv'
-import { validationResult } from 'express-validator';
 dotenv.config()
 
 
