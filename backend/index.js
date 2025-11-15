@@ -6,6 +6,7 @@ dotenv.config()
 import cookieParser from 'cookie-parser'
 import userRoute from './routes/user.routes.js'
 import productRouter from './routes/product.routes.js'
+import orderRoute from './routes/order.routes.js'
 
 
 
@@ -26,6 +27,7 @@ connectDB();
 
 app.use('/api/user',userRoute)
 app.use('/api/product',productRouter)
+app.use('/api/order',orderRoute)
 
 app.listen(port, ()=>{
     console.log(`server running on PORT ${port}`);
