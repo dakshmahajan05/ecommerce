@@ -1,4 +1,5 @@
 import Product from "../models/product.model.js"
+import { uplaodCloudinary } from "../utils/cloudinary.js";
 
 export const getallproducts = async(req,res)=>{
     try {
@@ -25,17 +26,32 @@ export const getproduct = async(req,res)=>{
 
 export const createproduct = async(req,res)=>{
     try {
-        const {name,image,description,stock,price,category} = req.body
-        if(!name || !price || !image || !stock || !category || !description ){
+        const {name,description,stock,price,category} = req.body
+        console.log(req.body)
+        const imagelocalPath = req.file?.path;
+        if(!imagelocalPath){
+            return res.status(400).json({message:"no image uplaod path found"})
+        }
+        if(!name || !price  || !stock || !category || !description ){
             return res.status(401).json({message:"sare feilds daal bhai",success:false});
+        }
+
+
+        const cloudinaryresponse = await uplaodCloudinary(imagelocalPath);
+
+        if(!cloudinaryresponse){
+            return res.status(500).json({message:"failed to uplaod image on cloudinary"})
         }
 
         const product = new Product({
             name,
             price,
-            description,stock,image
+            description,
+            stock,
+            category,
+            image:cloudinaryresponse
         })
-        await product.save()
+        const createproduct= await product.save()
         return res.status(200).json({message:"succesfully added new product",success:true,createproduct});
     } catch (error) {
         return res.json({message:"failed to create a new product",success:false});

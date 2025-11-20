@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { createproduct, deleteproduct, getallproducts, getproduct, updateproduct } from "../controllers/product.controllers.js";
 import { isAdmin, protect } from "../middlewares/auth.middleware.js";
-import { updateordertodelivered, updateordertopaid } from "../controllers/order.controllers.js";
+import { upload } from "../middlewares/multer.js";
 
 const productRouter = Router()
 
 productRouter.get('/',getallproducts)
 productRouter.get('/:id',getproduct)
 
-productRouter.post('/',protect,isAdmin,createproduct)
+productRouter.post('/',protect,isAdmin,upload.single('image'),createproduct)
 productRouter.put('/:id',protect,isAdmin,updateproduct)
 productRouter.delete('/:id',protect,isAdmin,deleteproduct)
 
