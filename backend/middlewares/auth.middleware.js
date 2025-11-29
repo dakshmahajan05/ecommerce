@@ -33,7 +33,12 @@ export const isAdmin = async(req,res,next)=>{
     try {
         if(req.user && req.user.isadmin){
             next();
+        }else{
+            return res.status(400).json({message:"user is not an admin",
+                success:false,
+            })
         }
+        
     } catch (error) {
         return res.status(400).json({message:"not authorised as an admin",success:false})
     }

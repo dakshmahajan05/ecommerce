@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createproduct, deleteproduct, getallproducts, getproduct, updateproduct } from "../controllers/product.controllers.js";
+import { createproduct, deleteproduct, getallproducts, getproduct, updateImage, updateproduct } from "../controllers/product.controllers.js";
 import { isAdmin, protect } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.js";
 
@@ -10,6 +10,7 @@ productRouter.get('/:id',getproduct)
 
 productRouter.post('/',protect,isAdmin,upload.single('image'),createproduct)
 productRouter.put('/:id',protect,isAdmin,updateproduct)
+productRouter.put('/image/:id',protect,isAdmin,upload.single('image'),updateImage)
 productRouter.delete('/:id',protect,isAdmin,deleteproduct)
 
 export default productRouter;

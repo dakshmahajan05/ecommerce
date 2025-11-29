@@ -19,9 +19,7 @@ app.use(cookieParser())
 
 const port = process.env.PORT || 3000;
 
-app.get('/',(req,res)=>{
-    res.send("server cvhl rha hai......")
-})
+
 //mongoDB conn
 connectDB();
 
@@ -29,6 +27,9 @@ app.use('/api/user',userRoute)
 app.use('/api/product',productRouter)
 app.use('/api/order',orderRoute)
 
+app.get('/',(req,res)=>{
+    res.send("heylo bhaiiiii")
+})
 app.listen(port, ()=>{
     console.log(`server running on PORT ${port}`);
     

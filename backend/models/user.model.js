@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     reset_otp:{
         type:Number,
     },
-    isamdin:{
+    isadmin:{
         type:Boolean,
         required:true,
         default:false
