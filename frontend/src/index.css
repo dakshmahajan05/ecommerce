@@ -1,0 +1,35 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Outfit:wght@100..900&display=swap'); */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+@import "tailwindcss";
+
+
+
+
+:root {
+  /* Fonts */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+  
+  --color-charcoal: #36454F; 
+  --color-text-dark: #1A1A1A;
+  --color-bg-base: #F7F7F7; /* Cool Off-White */
+  --color-bg-subtle: #F0D5D8; /* Soft Blush Pink */
+  --color-accent-rose: #A0526B; /* Muted Rose */
+  --color-success: #28a745; 
+  --color-danger: #dc3545; 
+  --color-accent-gold: #D8BD7D;
+}
+
+html, body {
+  font-family: var(--font-body); 
+  background-color: var(--color-bg-base);
+  color: var(--color-charcoal);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); 
+  color: var(--color-charcoal);
+}

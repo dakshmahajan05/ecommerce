@@ -14,11 +14,11 @@ export const createOrder = async(req,res)=>{
             paymentType:paymentType,
             totalPrice:totalPrice,
         })
-
+        
         const createdOrder = await order.save();
         return res.status(200).json({message:"created ordre succesfully",success:true,createdOrder})
     } catch (error) {
-        return res.status(400).json({message:"err occured while creating order",success:false});
+        return res.status(400).json({message:"err occured while creating order",success:false,error:error.message});
     }
 }
 

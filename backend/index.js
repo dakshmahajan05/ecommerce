@@ -22,7 +22,7 @@ const port = process.env.PORT || 3000;
 
 //mongoDB conn
 connectDB();
-
+app.use(express.json());
 app.use('/api/user',userRoute)
 app.use('/api/product',productRouter)
 app.use('/api/order',orderRoute)

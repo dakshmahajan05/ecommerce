@@ -1,15 +1,56 @@
 import Product from "../models/product.model.js"
 import { uplaodCloudinary } from "../utils/cloudinary.js";
+import {regex} from 'regex';
 
-export const getallproducts = async(req,res)=>{
+
+// File: controllers/product.controller.js
+
+export const getallproducts = async (req, res) => {
     try {
-        const products =await Product.find({});
-        return res.json({products});
-    } catch (error) {
-        return res.json({message:"cant fetch products",success:false})
-    }
-}
+        // 1. Pagination Setup
+        const pageSize = 10; // Items per page
+        const page = Number(req.query.pageNumber) || 1; // Current page number
 
+        // 2. Search Logic (Keyword)
+        const keyword = req.query.keyword
+            ? {
+                name: {
+                    $regex: req.query.keyword,
+                    $options: 'i' // 'i' must be a string in quotes
+                }
+            }
+            : {};
+        
+        // 3. Category Filter Logic
+        const categoryFilter = req.query.category
+            ? { category: req.query.category }
+            : {};
+        
+        // 4. Final Query Object (Search + Category ko jodna)
+        const finalQuery = { ...keyword, ...categoryFilter };
+        
+        // 5. Counting total documents (for pagination)
+        const count = await Product.countDocuments(finalQuery);
+
+        // 6. Fetching Products (Applying Pagination)
+        const products = await Product.find(finalQuery)
+            .limit(pageSize) // Ek page par 10 products
+            .skip(pageSize * (page - 1)); // Kitne products chhodne hain
+
+        // 7. Final Response (Total page count ke saath)
+        return res.json({
+            products,
+            page,
+            pages: Math.ceil(count / pageSize), // Total pages kitne banenge
+            totalCount: count,
+            success: true
+        });
+
+    } catch (error) {
+        console.error(error); // Error ko log karna zaroori hai
+        return res.status(500).json({ message: "Can't fetch products. Server Error.", success: false });
+    }
+};
 export const getproduct = async(req,res)=>{
     try {
         const {id} = req.params;
