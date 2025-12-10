@@ -21,7 +21,17 @@
   --color-danger: #dc3545; 
   --color-accent-gold: #D8BD7D;
 }
-
+/* src/index.css mein yeh code, jo tumne diya tha, font ka style set karta hai */
+.material-symbols-outlined {
+  /* FILL 0: Icon hollow (outlined) rahega */
+  /* wght 400: Medium weight */
+  /* opsz 24: Default icon size 24px */
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
 html, body {
   font-family: var(--font-body); 
   background-color: var(--color-bg-base);
@@ -32,4 +42,9 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading); 
   color: var(--color-charcoal);
+}
+.hero-background {
+    background-image: url('../assets/hero1.webp'); 
+    background-size: cover;
+    background-position: center;
 }

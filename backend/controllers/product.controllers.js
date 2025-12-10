@@ -8,7 +8,7 @@ import {regex} from 'regex';
 export const getallproducts = async (req, res) => {
     try {
         // 1. Pagination Setup
-        const pageSize = 10; // Items per page
+        const pageSize = 10; 
         const page = Number(req.query.pageNumber) || 1; // Current page number
 
         // 2. Search Logic (Keyword)
