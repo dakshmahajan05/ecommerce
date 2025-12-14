@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import { useState } from 'react'
 
 const Login = () => {
+
     const [formdata,setformdata] =useState({
       'email':'',
       'password':'',
@@ -14,7 +15,16 @@ const Login = () => {
 
     const submihandler = (e)=>{
       e.preventDefault();
-      alert("register")
+
+        if(!formdata.email.includes("@gmail.com")){
+          alert("Enter a valid email address.");
+          return;
+        }
+      if(!formdata.email || !formdata.password){
+        alert("all feilds andatory")
+        return ;
+      }
+      alert("login Successful")
       console.log("login details",formdata);
       
     }
@@ -37,8 +47,8 @@ const Login = () => {
         <div className='relative w-[70%] bg-white shadow-2xl rounded-lg p-8 max-w-md z-10'>
             <h1 className='text-3xl font-bold text-center mb-6'>Login Now</h1>
             <form action="" onSubmit={submihandler}  className='flex flex-col justify-center items-center text-center space-y-4 md:space-y-3 '>
-              <input onChange={setData} name='email' value={formdata.email} className='border-2 w-full font-semibold rounded-xl px-[10%] py-[1%] border-[#E0D7B8]'  type="email" placeholder='Enter Your Email'/>
-              <input onChange={setData} name='password' value={formdata.password} className='border-2 w-full font-semibold rounded-xl px-[10%] py-[1%] border-[#E0D7B8]'  type="password" placeholder='Your Password'/>
+              <input onChange={setData} name='email' value={formdata.email} className='border-2 w-full font-semibold rounded-md px-[10%] py-[1%] border-[#E0D7B8]'  type="email" placeholder='Enter Your Email'/>
+              <input onChange={setData} name='password' value={formdata.password} className='border-2 w-full font-semibold rounded-md px-[10%] py-[1%] border-[#E0D7B8]'  type="password" placeholder='Your Password'/>
 
             <Link to={'/register'}>
             <p className='text-sm'>Dont have an account <span className='text-blue-600 text-xs'>Register Now</span> </p>

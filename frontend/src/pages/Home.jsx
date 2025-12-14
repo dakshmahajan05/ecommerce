@@ -1,8 +1,7 @@
-import React from 'react'
 import Header from '../components/Header'
 import Content from '../components/Content'
-import Content2 from '../components/Content2'
 import Footer from '../components/Footer'
+import Products from '../components/Products'
 
 const Home = () => {
   return (
@@ -10,8 +9,9 @@ const Home = () => {
         <Header />
 
         <Content/>
-        {/* <Content2/> */}
+        <Products/>
         <Footer/>
+        
 
     </div>
   )

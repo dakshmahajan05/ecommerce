@@ -71,24 +71,24 @@ const Content = () => {
   <div className='flex justify-around gap-6 w-full'>
 
   {/* Saree */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={saree} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={saree} alt=""/>
     <p className='text-gray-900 cursor-pointer relative -top-30 text-white left-[4%] opacity-80 lg:-top-50 md:-top-40 text-lg md:text-xl lg:text-2xl font-bold mt-2'>
       Saree
     </p>
   </div>
 
   {/* Kurti */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={kurti} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={kurti} alt=""/>
     <p className='text-gray-900 cursor-pointer relative -top-30 text-white left-[4%] opacity-80 lg:-top-50 md:-top-40  text-lg md:text-xl lg:text-2xl font-bold mt-2'>
       Kurti
     </p>
   </div>
 
   {/* Dress */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={dress} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={dress} alt=""/>
     <p className='text-gray-900  cursor-pointer relative -top-30 text-white opacity-80 lg:-top-50 md:-top-40  text-lg md:text-xl lg:text-2xl font-bold mt-2'>
       Dress
     </p>
@@ -97,24 +97,24 @@ const Content = () => {
   <div className='flex justify-around gap-6 w-full'>
 
   {/* Ocassional */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={occassionals} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={occassionals} alt=""/>
     <p className='text-gray-900 cursor-pointer relative -top-30 text-white left-[4%] opacity-80 lg:-top-50 md:-top-40 text-lg md:text-xl lg:text-2xl font-bold mt-2'>
       Ocassional
     </p>
   </div>
 
   {/* Tops */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={top} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={top} alt=""/>
     <p className='text-gray-900 cursor-pointer relative -top-30 text-white left-[4%] opacity-80 lg:-top-50 md:-top-40  text-lg md:text-xl lg:text-2xl font-bold mt-2'>
     Tops
     </p>
   </div>
 
   {/* Bottoms */}
-  <div className='w-[23%] flex flex-col items-center'>
-    <img className='w-full hover:transition duration-500 hover:scale-105 h-full object-cover cursor-pointer' src={bottom} alt=""/>
+  <div className='w-[23%] transition duration-300 hover:scale-110 flex flex-col items-center'>
+    <img className='w-full hover:transition duration-500  h-full object-cover cursor-pointer' src={bottom} alt=""/>
     <p className='text-gray-900  cursor-pointer relative -top-30 text-white opacity-80 lg:-top-50 md:-top-40  text-lg md:text-xl lg:text-2xl font-bold mt-2'>
       Bottoms
     </p>

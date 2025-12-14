@@ -4,53 +4,88 @@ import {regex} from 'regex';
 
 
 // File: controllers/product.controller.js
+// File: controllers/product.controller.js
 
 export const getallproducts = async (req, res) => {
     try {
-        // 1. Pagination Setup
         const pageSize = 10; 
-        const page = Number(req.query.pageNumber) || 1; // Current page number
+        const page = Number(req.query.pageNumber) || 1; 
 
-        // 2. Search Logic (Keyword)
+        // 1. Basic Query Filters (Search, Category)
         const keyword = req.query.keyword
             ? {
                 name: {
                     $regex: req.query.keyword,
-                    $options: 'i' // 'i' must be a string in quotes
+                    $options: 'i'
                 }
             }
             : {};
         
-        // 3. Category Filter Logic
         const categoryFilter = req.query.category
             ? { category: req.query.category }
             : {};
         
-        // 4. Final Query Object (Search + Category ko jodna)
-        const finalQuery = { ...keyword, ...categoryFilter };
+        // 2. Price Filter Logic
+        let priceFilter = {};
+        const { min_price, max_price } = req.query; // Assuming front-end sends min_price and max_price
+
+        if (min_price || max_price) {
+            priceFilter.price = {};
+            if (min_price) {
+                priceFilter.price.$gte = Number(min_price);
+            }
+            if (max_price) {
+                priceFilter.price.$lte = Number(max_price);
+            }
+        }
+        
+        // 3. Size Filter Logic
+        let sizeFilter = {};
+        const { size } = req.query; // Assuming front-end sends size as comma-separated string (e.g., 'S,M,XL')
+
+        if (size) {
+            const selectedSizes = size.split(',').map(s => s.trim().toUpperCase());
+            
+            if (selectedSizes.length > 0) {
+                // $in: Products find karo jinki availableSizes array mein in selectedSizes mein se koi bhi size ho
+                sizeFilter.availableSizes = { 
+                    $in: selectedSizes 
+                };
+            }
+        }
+
+        // 4. Final Query Object (Saare filters ko jodna: Search + Category + Price + Size)
+        const finalQuery = { 
+            ...keyword, 
+            ...categoryFilter,
+            ...priceFilter,
+            ...sizeFilter
+        };
         
         // 5. Counting total documents (for pagination)
         const count = await Product.countDocuments(finalQuery);
 
         // 6. Fetching Products (Applying Pagination)
         const products = await Product.find(finalQuery)
-            .limit(pageSize) // Ek page par 10 products
-            .skip(pageSize * (page - 1)); // Kitne products chhodne hain
+            .limit(pageSize) 
+            .skip(pageSize * (page - 1)); 
 
-        // 7. Final Response (Total page count ke saath)
+        // 7. Final Response
         return res.json({
             products,
             page,
-            pages: Math.ceil(count / pageSize), // Total pages kitne banenge
+            pages: Math.ceil(count / pageSize), 
             totalCount: count,
             success: true
         });
 
     } catch (error) {
-        console.error(error); // Error ko log karna zaroori hai
+        console.error(error); 
         return res.status(500).json({ message: "Can't fetch products. Server Error.", success: false });
     }
 };
+
+// ... baaki functions (getproduct, createproduct, etc.) wohi rahenge ...
 export const getproduct = async(req,res)=>{
     try {
         const {id} = req.params;
@@ -103,10 +138,10 @@ export const getproduct = async(req,res)=>{
 export const createproduct=async(req,res)=>{
     try {
         const imagelocalPath= req.file.path;
-         const {name,description,stock,price,category} = req.body
+         const {name,description,stock,price,category,availableSizes} = req.body
 
          if(!imagelocalPath) return res.json({message:"no file uplaoded locally"})
-         if(!name || !description || !stock || !price || !category){
+         if(!name || !description || !stock || !price || !category || availableSizes){
             return res.status(400).json({message:"emter all feilds"});
          }
 
@@ -121,7 +156,7 @@ export const createproduct=async(req,res)=>{
             description,
             stock,
             price,
-            category
+            category,availableSizes
         })
         
         const createproduct= await product.save();
